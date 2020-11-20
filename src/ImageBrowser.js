@@ -56,19 +56,17 @@ export default class ImageBrowser extends React.Component {
     return isPortrait ? 4 : 7;
   }
 
+  /* adds or removes the images from the current selections */
   selectImage = (index) => {
-    let newSelected = Array.from(this.state.selected);
+    let newSelected = Array.from(this.state.selected || []);
     if (newSelected.indexOf(index) === -1) {
       newSelected.push(index);
     } else {
       const deleteIndex = newSelected.indexOf(index);
       newSelected.splice(deleteIndex, 1);
     }
-    if (newSelected.length > this.props.max) return;
-    if (!newSelected) newSelected = []; 
-    this.setState({selected: newSelected}, () =>{
-      this.props.onChange(newSelected.length, this.prepareCallback());
-    });
+    
+    this.setState({selected: newSelected}, this.prepareCallback);
   }
 
   getPhotos = () => {
@@ -105,9 +103,9 @@ export default class ImageBrowser extends React.Component {
 
   prepareCallback() {
     const { selected, photos } = this.state;
-    const selectedPhotos = selected.map(i => photos[i]);
-    const assetsInfo = Promise.all(selectedPhotos.map(i => MediaLibrary.getAssetInfoAsync(i)));
-    this.props.callback(assetsInfo);
+    if (this.props.callback) {
+      return this.props.callback(selected.map(i => photos[i]))
+    }
   }
 
   renderImageTile = ({item, index}) => {
