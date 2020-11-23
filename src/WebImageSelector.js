@@ -27,5 +27,6 @@ function MyDropzone() {
 }
 
 export const renderWebView = () => {
+    console.log('REDERING THE DIV WEB WORK FLOW!');
     return MyDropzone();
 };
