@@ -164,14 +164,17 @@ export default class ImageBrowser extends React.Component {
     }
 
     render() {
-        const { hasCameraPermission } = this.state;
-
-        if (!hasCameraPermission) {
-            return this.props.noCameraPermissionComponent || null;
-        }
+        console.log('About to render');
         if (Platform.OS !== 'web') {
+            const { hasCameraPermission } = this.state;
+
+            if (!hasCameraPermission) {
+                return this.props.noCameraPermissionComponent || null;
+            }
+
             return <View style={styles.container}>{this.renderImages()}</View>;
         } else {
+            console.log('FOO 1');
             return renderWebView();
         }
     }

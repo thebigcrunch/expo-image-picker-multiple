@@ -7,6 +7,7 @@ import React from 'react';
 import { useDropzone } from 'react-dropzone';
 
 function MyDropzone() {
+    console.log('CALLEd me?');
     const onDrop = React.useCallback((acceptedFiles) => {
         // Do something with the files
     }, []);
