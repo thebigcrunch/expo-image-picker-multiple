@@ -10,7 +10,7 @@ import {
 import * as ScreenOrientation from 'expo-screen-orientation';
 import * as MediaLibrary from 'expo-media-library';
 import * as Permissions from 'expo-permissions';
-import renderWebView from './WebImageSelector.js';
+import { renderWebView } from './WebImageSelector.js';
 import ImageTile from './ImageTile';
 
 const { width } = Dimensions.get('window');
