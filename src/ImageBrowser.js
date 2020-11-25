@@ -10,7 +10,7 @@ import {
 import * as ScreenOrientation from 'expo-screen-orientation';
 import * as MediaLibrary from 'expo-media-library';
 import * as Permissions from 'expo-permissions';
-import { renderWebView } from './WebImageSelector.js';
+import WebImageSelector from './WebImageSelector.js';
 import ImageTile from './ImageTile';
 
 const { width } = Dimensions.get('window');
@@ -28,7 +28,6 @@ export default class ImageBrowser extends React.Component {
     };
 
     async componentDidMount() {
-        console.log('PLAT FOR?', Platform.OS);
         if (Platform.OS == 'web') return;
 
         await this.getPermissionsAsync();
@@ -164,7 +163,6 @@ export default class ImageBrowser extends React.Component {
     }
 
     render() {
-        console.log('About to render');
         if (Platform.OS !== 'web') {
             const { hasCameraPermission } = this.state;
 
@@ -174,8 +172,7 @@ export default class ImageBrowser extends React.Component {
 
             return <View style={styles.container}>{this.renderImages()}</View>;
         } else {
-            console.log('FOO 1');
-            return renderWebView();
+            return <WebImageSelector></WebImageSelector>;
         }
     }
 }

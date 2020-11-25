@@ -4,19 +4,39 @@
 //
 
 import React from 'react';
-import { useDropzone } from 'react-dropzone';
+import Dropzone, { useDropzone } from 'react-dropzone';
 
-function MyDropzone() {
-    console.log('CALLEd me?');
+export default function WebImageSelector() {
     const onDrop = React.useCallback((acceptedFiles) => {
+        console.log('Drop zone got a drop!', acceptedFiles);
+
         // Do something with the files
     }, []);
-    const { getRootProps, getInputProps, isDragActive } = useDropzone({
+
+    // const callback = (files) => {
+    // };
+    const {
+        getRootProps,
+        getInputProps,
+        isDragActive,
+        isDragAccept,
+        isDragReject,
+    } = useDropzone({
         onDrop,
     });
 
+    const style = React.useMemo(
+        () => ({
+            ...baseStyle,
+            ...(isDragActive ? activeStyle : {}),
+            ...(isDragAccept ? acceptStyle : {}),
+            ...(isDragReject ? rejectStyle : {}),
+        }),
+        [isDragActive, isDragReject, isDragAccept]
+    );
+
     return (
-        <div {...getRootProps()}>
+        <div style={baseStyle} {...getRootProps()}>
             <input {...getInputProps()} />
             {isDragActive ? (
                 <p>Drop the files here ...</p>
@@ -27,7 +47,32 @@ function MyDropzone() {
     );
 }
 
-export const renderWebView = () => {
-    console.log('REDERING THE DIV WEB WORK FLOW!');
-    return MyDropzone();
+const baseStyle = {
+    flex: 1,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    padding: '20px',
+    margin: '20px',
+    height: '150px',
+    borderWidth: 2,
+    borderRadius: 2,
+    borderColor: '#eeeeee',
+    borderStyle: 'dashed',
+    backgroundColor: '#444',
+    color: '#bdbdbd',
+    outline: 'none',
+    transition: 'border .24s ease-in-out',
+};
+
+const activeStyle = {
+    borderColor: 'red',
+};
+
+const acceptStyle = {
+    borderColor: '#00e676',
+};
+
+const rejectStyle = {
+    borderColor: '#ff1744',
 };
